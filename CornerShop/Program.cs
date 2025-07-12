@@ -76,7 +76,7 @@ var database = mongoClient.GetDatabase("cornerShop");
 // Register services
 builder.Services.AddSingleton<IMongoDatabase>(database);
 builder.Services.AddScoped<CornerShop.Services.IDatabaseService>(sp =>
-    new CornerShop.Services.MongoDatabaseService("mongodb://localhost:27017", "cornerShop"));
+    new CornerShop.Services.MongoDatabaseService(mongoConnectionString, "cornerShop"));
 builder.Services.AddSingleton<IStoreService, StoreService>();
 builder.Services.AddScoped<CornerShop.Services.SyncService>();
 builder.Services.AddScoped<IProductService, ProductService>();

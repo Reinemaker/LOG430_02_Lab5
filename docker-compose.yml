@@ -29,13 +29,13 @@ services:
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
 
   # Multiple ASP.NET Core instances
-  app1:
+  cornershop-app-1:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - MongoDB__ConnectionString=mongodb://mongodb:27017
+      - MongoDB__ConnectionString=mongodb://admin:password@mongodb:27017
       - MongoDB__DatabaseName=cornerShop
       - ASPNETCORE_URLS=http://0.0.0.0:5000
     depends_on:
@@ -49,13 +49,13 @@ services:
       - "traefik.http.services.cornershop.loadbalancer.sticky.cookie=true"
       - "traefik.http.services.cornershop.loadbalancer.sticky.cookie.name=session"
 
-  app2:
+  cornershop-app-2:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - MongoDB__ConnectionString=mongodb://mongodb:27017
+      - MongoDB__ConnectionString=mongodb://admin:password@mongodb:27017
       - MongoDB__DatabaseName=cornerShop
       - ASPNETCORE_URLS=http://0.0.0.0:5000
     depends_on:
@@ -69,13 +69,13 @@ services:
       - "traefik.http.services.cornershop.loadbalancer.sticky.cookie=true"
       - "traefik.http.services.cornershop.loadbalancer.sticky.cookie.name=session"
 
-  app3:
+  cornershop-app-3:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - MongoDB__ConnectionString=mongodb://mongodb:27017
+      - MongoDB__ConnectionString=mongodb://admin:password@mongodb:27017
       - MongoDB__DatabaseName=cornerShop
       - ASPNETCORE_URLS=http://0.0.0.0:5000
     depends_on:

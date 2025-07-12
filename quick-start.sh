@@ -82,7 +82,7 @@ start_services() {
 wait_for_services() {
     echo -e "${YELLOW}Waiting for services to be ready...${NC}"
     
-    local max_attempts=30
+    local max_attempts=5
     local attempt=1
     
     while [ $attempt -le $max_attempts ]; do

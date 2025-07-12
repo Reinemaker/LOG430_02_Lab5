@@ -2,7 +2,93 @@
 
 A modern, distributed point-of-sale and inventory management system for multi-store businesses. Each store operates independently with a local SQLite database, while the head office consolidates data using a central MongoDB database. The system is designed for reliability, offline support, and easy synchronization.
 
-## Features
+## 🚀 Quick Start
+
+### Prerequisites
+- Docker and Docker Compose
+- k6 (for load testing)
+
+### One-Command Setup
+```bash
+./quick-start.sh
+```
+
+This script will:
+- Install Docker and Docker Compose (if not present)
+- Install k6 (if not present)
+- Start all services with proper configuration
+- Wait for services to be ready
+
+## 🌐 Access URLs
+
+### Main Application
+- **Primary URL**: `http://cornershop.localhost`
+- **Alternative**: `http://localhost` (with proper hostname configuration)
+
+### Monitoring & Management
+- **Traefik Dashboard**: `http://traefik.localhost:8080`
+- **Grafana Monitoring**: `http://localhost:3000` (admin/admin)
+- **Prometheus Metrics**: `http://localhost:9090`
+
+### API Documentation
+- **Swagger UI**: `http://cornershop.localhost/api-docs`
+- **ReDoc UI**: `http://cornershop.localhost/redoc`
+- **API Documentation**: `http://cornershop.localhost/Home/ApiDocumentation`
+
+## 🔧 Port Configuration
+
+| Service | Port | Description |
+|---------|------|-------------|
+| **Traefik** | 80, 443, 8080 | Load balancer and reverse proxy |
+| **CornerShop Apps** | 5000 (internal) | Main application instances |
+| **MongoDB** | 27017 | Database server |
+| **Redis** | 6379 | Caching and session storage |
+| **Grafana** | 3000 | Monitoring dashboard |
+| **Prometheus** | 9090 | Metrics collection |
+
+## 🆕 New Features & Architecture
+
+### Load Balancing & High Availability
+- **Multiple App Instances**: 3 identical CornerShop application instances for load balancing
+- **Traefik Integration**: Advanced reverse proxy with automatic service discovery
+- **Sticky Sessions**: Session persistence across load balancer requests
+- **Health Checks**: Automatic health monitoring and failover
+
+### Containerized Architecture
+- **Docker Compose**: Complete containerized deployment
+- **Microservices Ready**: Infrastructure supports microservices architecture
+- **Persistent Storage**: MongoDB and Redis data persistence
+- **Environment Isolation**: Production-ready environment configuration
+
+### Monitoring & Observability
+- **Prometheus**: Metrics collection and storage
+- **Grafana**: Real-time monitoring dashboards
+- **Health Endpoints**: `/health` and `/health/ready` endpoints
+- **Application Metrics**: Built-in Prometheus metrics
+
+### Database & Caching
+- **MongoDB Authentication**: Secure database access with credentials
+- **Redis Caching**: Session storage and application caching
+- **Connection Pooling**: Optimized database connections
+- **Data Persistence**: Volume-based data storage
+
+## 🏗️ Architecture
+
+### Container Services
+- **CornerShop Apps** (3 instances): Main web application with load balancing
+- **Traefik**: Reverse proxy and load balancer
+- **MongoDB**: Central database with authentication
+- **Redis**: Caching and session storage
+- **Prometheus**: Metrics collection
+- **Grafana**: Monitoring visualization
+
+### Network Architecture
+- **Docker Network**: Isolated container communication
+- **Port Mapping**: Strategic port exposure for external access
+- **Service Discovery**: Automatic service registration with Traefik
+- **SSL/TLS Ready**: HTTPS configuration support
+
+## 📋 Features
 - **Multi-store support**: Each store has its own local SQLite database for products and sales.
 - **Offline operation**: Stores can operate independently, even without internet connectivity.
 - **Centralized reporting**: The head office uses MongoDB to view consolidated sales and stock across all stores.
@@ -10,6 +96,69 @@ A modern, distributed point-of-sale and inventory management system for multi-st
 - **Modern web interface**: Built with ASP.NET Core MVC for a responsive, user-friendly experience.
 - **REST API**: Full REST-compliant API with versioning, HATEOAS, and standardized error handling.
 - **Cross-Origin Support**: CORS-enabled for frontend integration.
+- **Load Balancing**: Multiple application instances for high availability.
+- **Monitoring**: Real-time metrics and health monitoring.
+- **Containerized**: Complete Docker-based deployment.
+
+## 🔐 Database Access
+
+### MongoDB
+- **Host**: `localhost:27017`
+- **Username**: `admin`
+- **Password**: `password`
+- **Database**: `cornerShop`
+- **Connection String**: `mongodb://admin:password@localhost:27017`
+
+### Redis
+- **Host**: `localhost:6379`
+- **No Authentication**: Development configuration
+
+## 🛠️ Management Commands
+
+### Start Services
+```bash
+docker-compose up -d
+```
+
+### Stop Services
+```bash
+docker-compose down
+```
+
+### View Logs
+```bash
+# All services
+docker-compose logs
+
+# Specific service
+docker-compose logs cornershop-app-1
+```
+
+### Rebuild and Restart
+```bash
+docker-compose up -d --build
+```
+
+### Check Service Status
+```bash
+docker ps
+```
+
+## 🔍 Troubleshooting
+
+### Application Not Accessible
+1. Ensure services are running: `docker ps`
+2. Check Traefik logs: `docker-compose logs traefik`
+3. Verify hostname resolution: Add `127.0.0.1 cornershop.localhost` to `/etc/hosts`
+
+### Database Connection Issues
+1. Verify MongoDB is running: `docker-compose logs mongodb`
+2. Check connection string in environment variables
+3. Ensure authentication credentials are correct
+
+### Port Conflicts
+- If ports are already in use, stop conflicting services
+- Check port usage: `netstat -tlnp | grep :<port>`
 
 ## REST API Features
 - **API Versioning**: All endpoints use `/api/v1/` prefix for future compatibility
@@ -20,24 +169,6 @@ A modern, distributed point-of-sale and inventory management system for multi-st
 - **Content Negotiation**: Support for JSON and XML formats via Accept header
 - **PATCH Support**: Partial updates for all resources
 - **OpenAPI 3.0 Documentation**: Complete Swagger/OpenAPI documentation
-
-## Architecture
-- **Web Client**: ASP.NET Core MVC web application
-- **REST API**: ASP.NET Core Web API with full REST compliance
-- **Store Data Layer**: Local SQLite database per store
-- **Central Data Layer**: MongoDB for consolidated data and reporting
-- **Sync Service**: Pushes local sales to MongoDB for global reporting
-
-## Getting Started
-1. Clone the repository
-2. Run the application with `dotnet run`
-3. On store creation, a new SQLite database file is created for that store
-4. Use the Reports page to sync all stores to MongoDB for consolidated reporting
-
-## API Documentation
-- **Swagger UI**: [http://localhost:5000/api-docs](http://localhost:5000/api-docs) - Interactive API documentation
-- **ReDoc UI**: [http://localhost:5000/redoc](http://localhost:5000/redoc) - Alternative documentation viewer
-- **API Documentation Page**: [http://localhost:5000/Home/ApiDocumentation](http://localhost:5000/Home/ApiDocumentation) - Detailed API guide
 
 ## API Endpoints
 ### Products API (`/api/v1/products`)
@@ -76,14 +207,39 @@ A modern, distributed point-of-sale and inventory management system for multi-st
 - `GET /api/v1/reports/sales/trend` - Get sales trend report
 
 ## CORS Testing
-- **CORS Test Page**: [http://localhost:5000/cors-test.html](http://localhost:5000/cors-test.html) - Test cross-origin requests
+- **CORS Test Page**: `http://cornershop.localhost/cors-test.html` - Test cross-origin requests
 
-## Documentation
+## 📚 Documentation
 - [Technical Docs](docs/README.md)
 - [UML Diagrams](docs/UML/)
 - [Architecture Decision Records](docs/ADR/)
 - [API Documentation](docs/API_README.md)
 - [CORS Configuration](docs/CORS_README.md)
+- [Load Testing Guide](load-tests/README.md)
+- [Monitoring Setup](grafana/README.md)
+
+## 🔄 Development Workflow
+
+### Local Development
+1. Start services: `./quick-start.sh`
+2. Access application: `http://cornershop.localhost`
+3. View logs: `docker-compose logs -f`
+4. Stop services: `docker-compose down`
+
+### Making Changes
+1. Modify application code
+2. Rebuild containers: `docker-compose up -d --build`
+3. Test changes at `http://cornershop.localhost`
+
+## 📊 Monitoring & Metrics
+
+### Health Checks
+- Application: `http://cornershop.localhost/health`
+- Ready Check: `http://cornershop.localhost/health/ready`
+
+### Metrics Endpoints
+- Prometheus: `http://localhost:9090`
+- Application Metrics: `http://cornershop.localhost/metrics`
 
 ## License
 MIT
