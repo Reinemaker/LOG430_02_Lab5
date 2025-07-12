@@ -72,7 +72,7 @@ export function stockConsultationScenario() {
       try {
         const data = JSON.parse(r.body);
         return data.data && Array.isArray(data.data);
-      } catch {
+      } catch (e) {
         return false;
       }
     },
@@ -101,7 +101,7 @@ export function consolidatedReportsScenario() {
       try {
         const data = JSON.parse(r.body);
         return data.data && data.data.totalSales !== undefined;
-      } catch {
+      } catch (e) {
         return false;
       }
     },
@@ -137,7 +137,7 @@ export function productUpdateScenario() {
       try {
         const data = JSON.parse(r.body);
         return data.data && data.data.id === productId;
-      } catch {
+      } catch (e) {
         return false;
       }
     },
@@ -163,7 +163,7 @@ export function inventoryReportScenario() {
       try {
         const data = JSON.parse(r.body);
         return data.data && data.data.totalProducts !== undefined;
-      } catch {
+      } catch (e) {
         return false;
       }
     },
@@ -191,7 +191,7 @@ export function storeSearchScenario() {
       try {
         const data = JSON.parse(r.body);
         return data.data && Array.isArray(data.data);
-      } catch {
+      } catch (e) {
         return false;
       }
     },

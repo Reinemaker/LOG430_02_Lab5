@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-BASE_URL=${BASE_URL:-"http://cornershop.localhost"}
+BASE_URL=${BASE_URL:-"http://api.cornershop.localhost"}
 AUTH_TOKEN=${AUTH_TOKEN:-""}
 OUTPUT_DIR="./load-test-results"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
@@ -51,7 +51,7 @@ check_services() {
     echo -e "${BLUE}Checking service availability...${NC}"
     
     # Check if the application is responding
-    if curl -f -s "$BASE_URL/health" > /dev/null; then
+    if curl -f -s "$BASE_URL/api/products" > /dev/null; then
         echo -e "${GREEN}✓ Application is healthy${NC}"
     else
         echo -e "${RED}✗ Application is not responding${NC}"
